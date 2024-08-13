@@ -1,6 +1,9 @@
+import { Slider } from '@miblanchard/react-native-slider';
 import React from 'react'
 import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import CommunitySlider from '@react-native-community/slider';
+
 
 const {width,height}=Dimensions.get('window');
 
@@ -17,8 +20,29 @@ const MusicPlayer = () => {
                 />
 
             </View>
+            {/* Song Content */}
+            <View>
+                <Text style={[style.songContent,style.songTitle]}>Some Title</Text>
+                <Text style={[style.songContent,style.songArtist]}>Some Artist Name</Text>
+            </View>
 
             {/* slider */}
+             <View>
+                <CommunitySlider
+                style={style.progressBar}
+                value={10}
+                minimumValue={0}
+                maximumValue={100}
+                thumbTintColor="#FFD369"
+                minimumTrackTintColor="#FFD369"
+                maximumTrackTintColor="#fff"
+                onSlidingComplete={()=>{}}
+                />
+                <View style={style.progressLevelDuration}>
+                    <Text style={style.progressLabelText}>00.00</Text>
+                    <Text style={style.progressLabelText}>00.00</Text>
+                </View>
+             </View>
 
             {/* music controls */}
         </View>
@@ -96,6 +120,36 @@ const style=StyleSheet.create({
         },
         shadowOpacity:0.5,
         shadowRadius:3.84,
+
+    },
+    songContent:{
+        textAlign:'center',
+        color:'#EEEEEE'
+    },
+
+    songTitle:{
+        fontSize:18,
+        fontWeight:'600',      
+    },
+
+    songArtist:{
+        fontSize:16,
+        fontWeight:'300',       
+    },
+    progressBar:{
+        width:350,
+        height:40,
+        marginTop:25,
+        flexDirection:'row'
+    },
+    progressLevelDuration:{
+        width:360,
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    progressLabelText:{
+        color:'#fff',
+        fontWeight:'500'
 
     }
 
