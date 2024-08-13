@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const {width,height}=Dimensions.get('window');
@@ -10,11 +10,17 @@ const MusicPlayer = () => {
 
         <View style={style.maincontainer}>
             {/* image */}
+            <View style={[style.imageWrapper,style.elevation]}>
+                <Image
+                   source={require('../assets/img/img1.jpg')}
+                   style={style.musicImage}
+                />
+
+            </View>
 
             {/* slider */}
 
             {/* music controls */}
-            
         </View>
 
         <View style={style.bottomcontainer}>
@@ -69,6 +75,27 @@ const style=StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         width:'80%'
+
+    },
+    imageWrapper:{
+        width:300,
+        height:340,
+        marginBottom:25
+    },
+    musicImage:{
+        width:'100%',
+        height:'100%',
+        borderRadius:15,
+    },
+    elevation:{
+        elevation:5,
+        shadowColor:'#ccc',
+        shadowOffset:{
+            width:5,
+            height:5
+        },
+        shadowOpacity:0.5,
+        shadowRadius:3.84,
 
     }
 
