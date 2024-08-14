@@ -1,5 +1,6 @@
 
 import React, {useEffect,useState,useRef} from 'react'
+import TrackPlayer,{Capability,Event,RepeatMode,State,usePlaybackState,useProgress,useTrackPlayerEvents} from 'react-native-track-player';
 import { Animated, Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import CommunitySlider from '@react-native-community/slider';
@@ -9,21 +10,59 @@ import songs from '../model/Data';
 
 const {width,height}=Dimensions.get('window');
 
+const setUpPlayer = async () => {
+    const isInitialized = await TrackPlayer.getState();
+    if (isInitialized === State.None) {
+        try {
+            await TrackPlayer.setupPlayer();
+            await TrackPlayer.add(songs);
+        } catch (e) {
+            console.log(e);
+        }
+    } else {
+        console.log('Player is already initialized');
+    }
+};
+
+
+const togglePlayBack = async (playBackState) => {
+    try {
+        const currentTrack = await TrackPlayer.getCurrentTrack();
+        if (currentTrack !== null) {
+            if (playBackState === State.Paused) {
+                await TrackPlayer.play();
+            } else {
+                await TrackPlayer.pause();
+            }
+        } else {
+            console.log("No track is currently loaded.");
+        }
+    } catch (error) {
+        console.error("Error toggling playback:", error);
+    }
+};
+
 const MusicPlayer = () => {
-
+    
+    const playBackState = usePlaybackState();
     const [songIndex,setSongIndex]=useState(0);
-
-    const scrollx= useRef(new Animated.Value(0)).current
+    const scrollx= useRef(new Animated.Value(0)).current;
 
     useEffect(()=>{
+        setUpPlayer();
+        
+        
         scrollx.addListener(({value})=>{
             // console.log(`Scrollx : ${value} | Devices Width : ${width}`);
             const index = Math.round(value/width);
+            
+           
             setSongIndex(index);
             // console.log(index);
         });
-    },[])
+    },[]);
 
+    
 
 
     const renderSongs=({item,index})=>{
@@ -48,7 +87,7 @@ const MusicPlayer = () => {
             <Animated.FlatList
                 renderItem={renderSongs}
                 data={songs}
-                keyExtractor={item=>item.id}
+                keyExtractor={item =>item.id}
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
@@ -96,8 +135,11 @@ const MusicPlayer = () => {
                     <Ionicons name="play-skip-back-outline" size={35} color="#FFD369"/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=>{}}>
-                    <Ionicons name="pause-circle-outline" size={75} color="#FFD369"/>
+                <TouchableOpacity onPress={()=>togglePayBack(playBackState)}>
+                    <Ionicons name={
+                        playBackState=== State.Playing
+                        ? "play-circle-outline"
+                        : "pause-circle-outline"} size={75} color="#FFD369"/>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={()=>{}}>
@@ -131,10 +173,10 @@ const MusicPlayer = () => {
     </SafeAreaView>
     
   )
-}
+};
 
 
-export default MusicPlayer
+export default MusicPlayer;
 
 const style=StyleSheet.create({
     container:{
@@ -226,5 +268,5 @@ const style=StyleSheet.create({
     },
     
 
-})
+});
 
