@@ -108,6 +108,8 @@ const MusicPlayer = () => {
             <View>
                 <Text style={[style.songContent,style.songTitle]}>{songs[songIndex].title}</Text>
                 <Text style={[style.songContent,style.songArtist]}>{songs[songIndex].artist}</Text>
+                <Text style={[style.songContent,style.songTitle]}>{songs[songIndex].title}</Text>
+                <Text style={[style.songContent,style.songArtist]}>{songs[songIndex].artist}</Text>
             </View>
 
             {/* slider */}
