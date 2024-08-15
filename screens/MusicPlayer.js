@@ -7,8 +7,8 @@ import CommunitySlider from '@react-native-community/slider';
 import songs from '../model/Data';
 
 
-
-const {width,height}=Dimensions.get('window');
+// get Dimension on screen
+const {width}=Dimensions.get('window');
 
 const setUpPlayer = async () => {
     const isInitialized = await TrackPlayer.getState();
@@ -94,7 +94,7 @@ const MusicPlayer = () => {
                 scrollEventThrottle={16}
                 onScroll={Animated.event(
                     [{
-                        nativeEvent:{
+                        nativgiteEvent:{
                             contentOffset: {x:scrollx},
                         }
                     }],
